@@ -83,7 +83,7 @@ const Post = ({ post }) => {
         body = [],
     } = post;
 
-    const titleTag = `Bacon Blog | ${title}`;
+    const titleTag = `ESL Site | ${title}`;
 
     return (
         <>
