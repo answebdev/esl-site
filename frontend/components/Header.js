@@ -6,7 +6,7 @@ const Header = () => {
         <>
             <div className={styles.header}>
                 <h1>ESL Site</h1>
-                <p className={styles.headerText}>Welcome to your English learning site</p>
+                <p className={styles.headerText}>An ESL Resource Site</p>
             </div>
         </>
     );
