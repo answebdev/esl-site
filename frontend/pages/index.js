@@ -10,7 +10,7 @@ function urlFor(source) {
     return imageUrlBuilder(client).image(source);
 }
 
-const Index = ({ posts }) => {
+const Index = ({ exercises }) => {
     return (
         <div>
             <Header />
@@ -25,8 +25,8 @@ const Index = ({ posts }) => {
 
                 <br />
 
-                {posts.length > 0 &&
-                    posts.map(
+                {exercises.length > 0 &&
+                    exercises.map(
                         ({ _id, title = '', description = '', slug = '', publishedAt = '', mainImage = '' }) =>
                             slug && (
                                 <div key={_id} className={styles.postContainer}>
@@ -38,7 +38,7 @@ const Index = ({ posts }) => {
                                             alt={`${title}`}
                                         />
                                         <p className={styles.text}><span className={styles.postTitle}>{title}</span></p>
-                                        <Link className={styles.postLink} href={`/post/${encodeURIComponent(slug.current)}`}>
+                                        <Link className={styles.postLink} href={`/exercise/${encodeURIComponent(slug.current)}`}>
                                             View Post
                                         </Link>
                                     </div>
@@ -51,12 +51,12 @@ const Index = ({ posts }) => {
 };
 
 export async function getStaticProps() {
-    const posts = await client.fetch(groq`
-      *[_type == "post" && publishedAt < now()] | order(publishedAt desc)
+    const exercises = await client.fetch(groq`
+      *[_type == "exercise" && publishedAt < now()] | order(publishedAt desc)
     `);
     return {
         props: {
-            posts,
+            exercises,
         },
         revalidate: 20,
     };
