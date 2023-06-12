@@ -17,11 +17,11 @@ const Index = ({ exercises }) => {
             <div className={styles.container}>
                 <Head>
                     <title>ESL Site</title>
-                    <meta name="description" content="An ESL Resource Site" />
+                    <meta name="description" content="An ESL Resource Site." />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
 
-                <h1 style={{ textAlign: 'center' }}>ESL Site</h1>
+                <h1 style={{ textAlign: 'center' }}>Grammar Exercises</h1>
 
                 <br />
 
@@ -43,6 +43,12 @@ const Index = ({ exercises }) => {
                                         </Link>
                                     </div>
                                 </div>
+
+                                // <div key={_id}>
+                                //     <Link className={styles.postLink} href={`/exercise/${encodeURIComponent(slug.current)}`}>
+                                //         {title}
+                                //     </Link>
+                                // </div>
                             )
                     )}
             </div >

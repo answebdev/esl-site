@@ -194,7 +194,7 @@ const Exercise = ({ exercise }) => {
         <>
             <Head>
                 <title>{titleTag}</title>
-                <meta name="description" content="A blog of random content" />
+                <meta name="description" content="An ESL Resource Site." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -242,26 +242,33 @@ const Exercise = ({ exercise }) => {
 
                 <div className={styles.pText}>
                     <p><em>{description}</em></p>
+
+                    <a href="https://adolfschmuck.com/assets/pdf/Adolf_Schmuck_Resume.pdf" rel="noopener noreferrer" target="_blank">PDF Download</a>
+
                     <PortableText value={body} components={ptComponents} />
 
-                    {questions.map((question) => {
+                    {questions.map((question, i) => {
                         return (
-                            <div>
-                                <PortableText value={question[0]} components={ptComponents} />
-                                <div>
-                                    <input type="radio" id="option1" name="answer" value={question[1][0]} />
-                                    <label for={question[1][0]}> {question[1][0]}</label>
-                                    <br />
-                                    <input type="radio" id="option1" name="answer" value={question[1][1]} />
-                                    <label for={question[1][1]}> {question[1][1]}</label>
-                                    <br />
-                                    <input type="radio" id="option1" name="answer" value={question[1][2]} />
-                                    <label for={question[1][2]}> {question[1][2]}</label>
-                                    <br />
-                                    <input type="radio" id="option1" name="answer" value={question[1][3]} />
-                                    <label for={question[1][3]}> {question[1][3]}</label>
-                                    <br />
-                                </div>
+                            <div key={i}>
+                                <ol>
+                                    <li value={i + 1}>
+                                        <PortableText value={question[0]} components={ptComponents} />
+                                        <div>
+                                            <input type="radio" id="option1" name="answer" value={question[1][0]} />
+                                            <label htmlFor={question[1][0]}> {question[1][0]}</label>
+                                            <br />
+                                            <input type="radio" id="option2" name="answer" value={question[1][1]} />
+                                            <label htmlFor={question[1][1]}> {question[1][1]}</label>
+                                            <br />
+                                            <input type="radio" id="option3" name="answer" value={question[1][2]} />
+                                            <label htmlFor={question[1][2]}> {question[1][2]}</label>
+                                            <br />
+                                            <input type="radio" id="option4" name="answer" value={question[1][3]} />
+                                            <label htmlFor={question[1][3]}> {question[1][3]}</label>
+                                            <br />
+                                        </div>
+                                    </li>
+                                </ol>
                                 <div>
                                     {showAnswers ? (
                                         <div>
