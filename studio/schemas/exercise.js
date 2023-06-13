@@ -54,11 +54,11 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
-    // defineField({
-    //   name: 'question1',
-    //   title: 'Question 1',
-    //   type: 'string',
-    // }),
+    defineField({
+      name: 'worksheet',
+      title: 'Downloadable Worksheet (PDF)',
+      type: 'file',
+    }),
     defineField({
       name: 'question1',
       title: 'Question 1',
@@ -104,11 +104,6 @@ export default defineType({
       title: 'Correct Answer?',
       type: 'boolean',
     }),
-    // defineField({
-    //   name: 'question2',
-    //   title: 'Question 2',
-    //   type: 'string',
-    // }),
     defineField({
       name: 'question2',
       title: 'Question 2',

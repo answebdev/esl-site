@@ -52,6 +52,7 @@ const Exercise = ({ exercise }) => {
         authorImage,
         mainImage,
         publishedAt,
+        worksheet,
         question1,
         answerToQuestion1_1,
         answerToQuestion1_2,
@@ -243,7 +244,7 @@ const Exercise = ({ exercise }) => {
                 <div className={styles.pText}>
                     <p><em>{description}</em></p>
 
-                    <a href="https://adolfschmuck.com/assets/pdf/Adolf_Schmuck_Resume.pdf" rel="noopener noreferrer" target="_blank">PDF Download</a>
+                    <a href={worksheet.asset.url} rel="noopener noreferrer" target="_blank">PDF Download</a>
 
                     <PortableText value={body} components={ptComponents} />
 
@@ -358,6 +359,12 @@ const Exercise = ({ exercise }) => {
 const query = groq`*[_type == "exercise" && slug.current == $slug][0]{
   title,
   description,
+    worksheet{
+      asset->{
+      _id,  
+      url
+    }
+  },
   question1,
   answerToQuestion1_1,
   answerToQuestion1_2,
