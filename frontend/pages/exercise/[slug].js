@@ -284,6 +284,9 @@ const Exercise = ({ exercise }) => {
                         );
                     })}
 
+                    {/* How to target single item in list with onClick when mapping in ReactJS:
+                    https://forum.freecodecamp.org/t/how-to-target-single-item-in-list-with-onclick-when-mapping-in-reactjs/476622 */}
+
                     {/* <ol>
                     
                         <li>

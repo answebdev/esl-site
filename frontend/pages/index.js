@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Head from 'next/head';
 import Link from 'next/link';
 import groq from 'groq';
@@ -10,7 +11,54 @@ function urlFor(source) {
     return imageUrlBuilder(client).image(source);
 }
 
-const Index = ({ exercises }) => {
+const Index = () => {
+    const [exercises, setExercises] = useState([]);
+    const [sentences, setSentences] = useState([]);
+
+    useEffect(() => {
+        client.fetch(
+            `*[_type == "exercise"] | order(publishedAt desc){
+              title,
+              slug,
+              body,
+              description,
+              author,
+              mainImage {
+                  asset -> {
+                      _id,
+                      url
+                  },
+                  alt
+              },
+              publishedAt,
+              "categories": categories[]->title
+          }`
+        ).then((data) => setExercises(data))
+            .catch(console.error);
+    }, []);
+
+    useEffect(() => {
+        client.fetch(
+            `*[_type == "sentence"] | order(publishedAt desc){
+              title,
+              slug,
+              body,
+              description,
+              author,
+              mainImage {
+                  asset -> {
+                      _id,
+                      url
+                  },
+                  alt
+              },
+              publishedAt,
+              "categories": categories[]->title
+          }`
+        ).then((data) => setSentences(data))
+            .catch(console.error);
+    }, []);
+
     return (
         <div>
             <Header />
@@ -25,47 +73,64 @@ const Index = ({ exercises }) => {
 
                 <br />
 
-                {exercises.length > 0 &&
-                    exercises.map(
-                        ({ _id, title = '', description = '', slug = '', publishedAt = '', mainImage = '' }) =>
-                            slug && (
-                                <div key={_id} className={styles.postContainer}>
-                                    <div className={styles.box}>
-                                        <p className={styles.text}></p>
-                                        <br />
-                                        <img className={styles.mainImage}
-                                            src={urlFor(mainImage).url()}
-                                            alt={`${title}`}
-                                        />
-                                        <p className={styles.text}><span className={styles.postTitle}>{title}</span></p>
-                                        <Link className={styles.postLink} href={`/exercise/${encodeURIComponent(slug.current)}`}>
-                                            View Post
-                                        </Link>
-                                    </div>
-                                </div>
+                {exercises.map((p, i) => (
+                    <div key={i} className={styles.postContainer}>
+                        <div className={styles.box}>
+                            <br />
+                            <img className={styles.mainImage}
+                                src={urlFor(p.mainImage).url()}
+                                alt={`${p.title}`}
+                            />
+                            <p className={styles.text}><span className={styles.postTitle}>{p.title}</span></p>
+                            <p className={styles.text}><span className={styles.postDescription}>{p.description}</span></p><br />
+                            <div className={styles.badgeContainer}>
+                                {p.categories.map((category, i) => (
+                                    <p className={styles.tagBadge} key={i}>{category}&nbsp;</p>
+                                ))}
+                            </div>
+                            <Link className={styles.postLink} href={`/exercise/${encodeURIComponent(p.slug.current)}`}>
+                                Read More
+                            </Link>
+                        </div>
+                    </div>
+                ))}
 
-                                // <div key={_id}>
-                                //     <Link className={styles.postLink} href={`/exercise/${encodeURIComponent(slug.current)}`}>
-                                //         {title}
-                                //     </Link>
-                                // </div>
-                            )
-                    )}
+                {sentences.map((x, i) => (
+                    <div key={i} className={styles.postContainer}>
+                        <div className={styles.box}>
+                            <br />
+                            <img className={styles.mainImage}
+                                src={urlFor(x.mainImage).url()}
+                                alt={`${x.title}`}
+                            />
+                            <p className={styles.text}><span className={styles.postTitle}>{x.title}</span></p>
+                            <p className={styles.text}><span className={styles.postDescription}>{x.description}</span></p><br />
+                            {/* <div className={styles.badgeContainer}>
+                                {p.categories.map((category, i) => (
+                                    <p className={styles.tagBadge} key={i}>{category}&nbsp;</p>
+                                ))}
+                            </div> */}
+                            <Link className={styles.postLink} href={`/sentence/${encodeURIComponent(x.slug.current)}`}>
+                                Read More
+                            </Link>
+                        </div>
+                    </div>
+                ))}
             </div >
         </div>
     );
 };
 
-export async function getStaticProps() {
-    const exercises = await client.fetch(groq`
-      *[_type == "exercise" && publishedAt < now()] | order(publishedAt desc)
-    `);
-    return {
-        props: {
-            exercises,
-        },
-        revalidate: 20,
-    };
-}
+// export async function getStaticProps() {
+//     const exercises = await client.fetch(groq`
+//       *[_type == "exercise" && publishedAt < now()] | order(publishedAt desc)
+//     `);
+//     return {
+//         props: {
+//             exercises,
+//         },
+//         revalidate: 20,
+//     };
+// }
 
 export default Index;

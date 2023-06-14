@@ -4,5 +4,6 @@ import exercise from './exercise';
 import author from './author';
 import question from './question';
 import questionSet from './questionSet';
+import sentence from './sentence';
 
-export const schemaTypes = [exercise, author, question, questionSet, category, blockContent];
+export const schemaTypes = [exercise, sentence, author, question, questionSet, category, blockContent];
