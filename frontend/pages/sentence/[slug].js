@@ -45,8 +45,33 @@ const Sentence = ({ sentence }) => {
     // const [showAnswer, setShowAnswer] = useState(false);
 
     // const [open, setOpen] = useState([]);
+    const [userAnswer, setUserAnswer] = useState('');
     const [showAnswer, setShowAnswer] = useState([]);
 
+    // const handleUserInput = (id) => {
+    //     if (userAnswer.includes(id)) {
+    //         setUserAnswer(userAnswer.filter(sid => sid !== id));
+    //     } else {
+    //         let newUserAnswer = [...userAnswer];
+    //         newUserAnswer.push(id);
+    //         setUserAnswer(newUserAnswer);
+    //     }
+    // };
+
+    // Check Button Logic
+    const handleUserInput = (e) => {
+        setUserAnswer(e.target.value);
+        console.log('User Input: ', e.target.value);
+    };
+
+    const handleUserClick = (e) => {
+        e.preventDefault();
+
+        // 👇️ value of input field
+        console.log('Submitted Answer 👉️ ', userAnswer);
+    };
+
+    // Show Answer Button Logic
     const handleShowAnswer = (id) => {
         if (showAnswer.includes(id)) {
             setShowAnswer(showAnswer.filter(sid => sid !== id));
@@ -70,6 +95,8 @@ const Sentence = ({ sentence }) => {
         answer1,
         question2,
         answer2,
+        question3,
+        answer3,
         body = [],
     } = sentence;
 
@@ -78,6 +105,7 @@ const Sentence = ({ sentence }) => {
     const questions = [
         [question1, answer1],
         [question2, answer2],
+        [question3, answer3],
     ];
 
     // const questions = [
@@ -122,11 +150,6 @@ const Sentence = ({ sentence }) => {
     //         [isCorrectToQuestion10_1, isCorrectToQuestion10_2, isCorrectToQuestion10_3, isCorrectToQuestion10_4]
     //     ]
     // ];
-
-    // const handleShowAnswer = (i) => {
-    //     console.log(i);
-    //     setShowAnswer(true);
-    // };
 
     return (
         <>
@@ -186,26 +209,36 @@ const Sentence = ({ sentence }) => {
                     <PortableText value={body} components={ptComponents} />
 
                     {questions.map((question, i) => {
-                        console.log(i);
-                        console.log(question[i]);
+                        // console.log(i);
+                        // console.log(question[i]);
                         return (
                             <div key={i}>
                                 <ol>
                                     <li value={i + 1}>
                                         <PortableText value={question[0]} components={ptComponents} />
                                         <div>
-                                            <form >
-                                                <label htmlFor="your_answer">Your Answer:</label><br />
-                                                <input type="text" id="answer" name="answer" /><br /><br />
-                                                <input type="submit" value="Check" />
-                                                {/* <input onClick={() => setShowAnswer(true)} type="submit" value="Show Answer" /> */}
-                                            </form>
+                                            {/* <form > */}
+                                            <label htmlFor="your_answer">Your Answer:</label><br />
+                                            <input
+                                                type="text"
+                                                id="userAnswer"
+                                                name="userAnswer"
+                                                onChange={handleUserInput}
+                                                value={userAnswer}
+                                            />
+                                            <br /><br />
+                                            {/* <input type="submit" value="Check" /> */}
+                                            {/* <input onClick={() => setShowAnswer(true)} type="submit" value="Show Answer" /> */}
+                                            {/* </form> */}
 
                                             <p>
                                                 <strong>Answer:</strong> {showAnswer.includes(i) ? <span>{question[1]}</span> : null}
                                             </p>
                                             <div>
                                                 <button onClick={() => handleShowAnswer(i)}>{showAnswer.includes(i) ? "Hide Answer" : "Show Answer"}</button>
+                                            </div>
+                                            <div>
+                                                <button onClick={handleUserClick}>Check</button>
                                             </div>
 
                                             <br />
@@ -253,6 +286,8 @@ const query = groq`*[_type == "sentence" && slug.current == $slug][0]{
                     answer1,
                     question2,
                     answer2,
+                    question3,
+                    answer3,
                     publishedAt,
                     mainImage,
                     caption,

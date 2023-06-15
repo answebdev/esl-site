@@ -79,6 +79,16 @@ export default defineType({
             title: 'Answer 2',
             type: 'string',
         }),
+        defineField({
+            name: 'question3',
+            title: 'Question 3',
+            type: 'blockContent',
+        }),
+        defineField({
+            name: 'answer3',
+            title: 'Answer 3',
+            type: 'string',
+        }),
     ],
 
     preview: {
